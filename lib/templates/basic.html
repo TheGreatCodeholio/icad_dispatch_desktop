@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Basic Config {% endblock %}</h1>
+
+    <form method="post">
+    <h4>Logging Debug</h4>
+    {% block radios %}
+        {% if config_data["logger"]["debug"] == 1 %}
+             <input checked type="radio" id="enable" name="logger" value=1>
+             <label for="enable">Enabled</label><br>
+             <input type="radio" id="disable" name="logger" value=0>
+             <label for="disable">Disabled</label><br>
+        {% else %}
+             <input type="radio" id="enable" name="logger" value=1>
+             <label for="enable">Enabled</label><br>
+             <input checked type="radio" id="disable" name="logger" value=0>
+             <label for="disable">Disabled</label><br>
+        {% endif %}
+    {% endblock %}
+        <br>
+    <h4>Paths</h4>
+             <label class="text_label" style="margin-right: 75px" for="fd_notify_path">Path to FD Tone Notify: </label>
+             <input class="text_input" size="60" type="text" id="fd_notify_path" name="fd_notify_path" value="{{ config_data["fd_tone_notify_path"] }}" placeholder="{{ config_data["fd_tone_notify_path"] }}"><br><br>
+             <label class="text_label" for="fd_notify_extension_path">Path to FD Tone Notify Extension: </label>
+             <input class="text_input" size="60" type="text" id="fd_notify_extension_path" name="fd_notify_extension_path" value="{{ config_data["fd_tone_notify_extension_path"] }}" placeholder="{{ config_data["fd_tone_notify_extension_path"] }}"><br><br>
+             <label class="text_label" style="margin-right: 120px" for="local_audio_path">Local Audio Path: </label>
+             <input class="text_input" size="60" type="text" id="local_audio_path" name="local_audio_path" value="{{ config_data["local_audio_path"] }}" placeholder="{{ config_data["local_audio_path"] }}"><br><br>
+             <label class="text_label" style="margin-right: 175px" for="base_url">Base URL: </label>
+             <input class="text_input" size="60" type="text" id="base_url" name="base_url" value="{{ config_data["base_url"] }}" placeholder="{{ config_data["base_url"] }}"><br><br>
+             <label class="text_label" style="margin-right: 130px" for="audio_url_path">URL Audio Path: </label>
+             <input class="text_input" size="60" type="text" id="audio_url_path" name="audio_url_path" value="{{ config_data["audio_url_path"] }}" placeholder="{{ config_data["audio_url_path"] }}"><br><br>
+
+        <button type="submit">Save</button>
+    </form>
+{% endblock %}

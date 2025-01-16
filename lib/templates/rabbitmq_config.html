@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% block title %} RabbitMQ Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Settings.">RabbitMQ Config</h5>
+            <form id="rabbitmq_form" method="post">
+                <label id="rabbitmq_hostname_label" for="rabbitmq_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Hostname" class="form-label w-50">RabbitMQ Hostname or IP</label>
+                <input type="text" id="rabbitmq_hostname" name="rabbitmq_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Hostname" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["rabbitmq_settings"]["hostname"] }}" value="{{ icad_config_data["rabbitmq_settings"]["hostname"] }}" required>
+
+                <label id="rabbitmq_port_label" for="rabbitmq_port" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Port" class="form-label w-50">RabbitMQ Port</label>
+                <input type="text" id="rabbitmq_port" name="rabbitmq_port" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Port" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["rabbitmq_settings"]["port"] }}" value="{{ icad_config_data["rabbitmq_settings"]["port"] }}" required>
+
+                <label id="rabbitmq_username_label" for="rabbitmq_username" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Username" class="form-label w-50">RabbitMQ Username</label>
+                <input type="text" id="rabbitmq_username" name="rabbitmq_username" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Username" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["rabbitmq_settings"]["username"] }}" value="{{ icad_config_data["rabbitmq_settings"]["username"] }}" required>
+
+                <label id="rabbitmq_password_label" for="rabbitmq_password" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Password" class="form-label w-50">RabbitMQ Password</label>
+                <input type="password" id="rabbitmq_password" name="rabbitmq_password" data-bs-toggle="tooltip" data-bs-placement="top" title="RabbitMQ Password" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["rabbitmq_settings"]["password"] }}" value="{{ icad_config_data["rabbitmq_settings"]["password"] }}" required>
+
+                <label id="rabbitmq_queue_label" for="rabbitmq_queue" data-bs-toggle="tooltip" data-bs-placement="top" title="Queue for Trunk Recorder audio files." class="form-label w-50">RabbitMQ Queue Name</label>
+                <input type="text" id="rabbitmq_queue" name="rabbitmq_queue" data-bs-toggle="tooltip" data-bs-placement="top" title="Queue for Trunk Recorder audio files." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["rabbitmq_settings"]["tone_detection_queue"] }}" value="{{ icad_config_data["rabbitmq_settings"]["tone_detection_queue"] }}" required>
+
+                <button type="submit" name="submit" value="save_rabbitmq" class="mb-4 btn btn-outline-success">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

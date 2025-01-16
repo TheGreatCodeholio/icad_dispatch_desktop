@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} MQTT Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <form method="post">
+                <h5 class="mt-3 mb-3">MQTT Configuration</h5>
+                <label data-bs-toggle="tooltip" data-bs-placement="top" title="Send a message or multiple messages to an MQTT Broker" class="mt-3 form-label w-50" >MQTT Status</label><br>
+                        {% block radios_rounded %}
+                            {% if icad_config_data["mqtt"]["enabled"] == 1 %}
+                                <input checked type="radio" id="mqtt_enable" name="mqtt_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send a message or multiple messages to an MQTT Broker" value=1>
+                                <label for="mqtt_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable MQTT Messages?" class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="mqtt_disable" name="mqtt_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send a message or multiple messages to an MQTT Broker" value=0>
+                                <label for="mqtt_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable MQTT Messages?">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="mqtt_enable" name="mqtt_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send a message or multiple messages to an MQTT Broker" value=1>
+                                <label for="mqtt_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable MQTT Messages?" class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="mqtt_disable" name="mqtt_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send a message or multiple messages to an MQTT Broker" value=0>
+                                <label for="mqtt_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable MQTT Messages?">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                <br>
+                <label id="mqtt_hostname_label" for="mqtt_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Hostname" class="form-label w-50">MQTT Hostname or IP</label>
+                <input type="text" id="mqtt_hostname" name="mqtt_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Hostname" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mqtt"]["mqtt_hostname"] }}" value="{{ icad_config_data["mqtt"]["mqtt_hostname"] }}">
+
+                <label id="mqtt_port_label" for="mqtt_port" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Port Number" class="form-label w-50">MQTT Port</label>
+                <input type="text" id="mqtt_port" name="mqtt_port" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Port Number" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mqtt"]["mqtt_port"] }}" value="{{ icad_config_data["mqtt"]["mqtt_port"] }}">
+
+                <label id="mqtt_username_label" for="mqtt_username" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Username" class="form-label w-50">MQTT Username</label>
+                <input type="text" id="mqtt_username" name="mqtt_username" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Username" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mqtt"]["mqtt_username"] }}" value="{{ icad_config_data["mqtt"]["mqtt_username"] }}">
+
+                <label id="mqtt_password_label" for="mqtt_password" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Password" class="form-label w-50">MQTT Password</label>
+                <input type="password" id="mqtt_password" name="mqtt_password" data-bs-toggle="tooltip" data-bs-placement="top" title="MQTT Password" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mqtt"]["mqtt_password"] }}" value="{{ icad_config_data["mqtt"]["mqtt_password"] }}">
+
+                <button type="submit" name="submit" value="save_mqtt" class="mb-4 btn btn-outline-success">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

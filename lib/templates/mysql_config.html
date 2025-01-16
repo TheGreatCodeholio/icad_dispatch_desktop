@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% block title %} MySQL Database Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Database Settings.">MySQL Database</h5>
+            <form id="mysql_form" method="post">
+                {% block radios_mysql %}
+                    {% if icad_config_data["mysql_settings"]["enabled"] == 1 %}
+                        <input checked type="radio" id="mysql_enable" name="mysql_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=1>
+                        <label for="mysql_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable adding database entries for detections." class="form-label w-50">Enabled</label><br>
+                        <input type="radio" id="mysql_disable" name="mysql_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=0>
+                        <label for="mysql_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable adding database entries for detections.">Disabled</label><br>
+                    {% else %}
+                        <input type="radio" id="mysql_enable" name="mysql_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=1>
+                        <label for="mysql_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable adding database entries for detections." class="form-label w-50">Enabled</label><br>
+                        <input checked type="radio" id="mysql_disable" name="mysql_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=0>
+                        <label for="mysql_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable adding database entries for detections..">Disabled</label><br>
+                    {% endif %}
+                {% endblock %}
+                <br>
+                <label id="mysql_hostname_label" for="mysql_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Hostname" class="form-label w-50">MySQL Hostname or IP</label>
+                <input type="text" id="mysql_hostname" name="mysql_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Hostname" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mysql_settings"]["mysql_hostname"] }}" value="{{ icad_config_data["mysql_settings"]["mysql_hostname"] }}" required>
+
+                <label id="mysql_port_label" for="mysql_port" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Port" class="form-label w-50">MySQL Port</label>
+                <input type="text" id="mysql_port" name="mysql_port" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Port" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mysql_settings"]["mysql_port"] }}" value="{{ icad_config_data["mysql_settings"]["mysql_port"] }}" required>
+
+                <label id="mysql_username_label" for="mysql_username" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Username" class="form-label w-50">MySQL Username</label>
+                <input type="text" id="mysql_username" name="mysql_username" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Username" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mysql_settings"]["mysql_username"] }}" value="{{ icad_config_data["mysql_settings"]["mysql_username"] }}" required>
+
+                <label id="mysql_password_label" for="mysql_password" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Password" class="form-label w-50">MySQL Password</label>
+                <input type="password" id="mysql_password" name="mysql_password" data-bs-toggle="tooltip" data-bs-placement="top" title="MySQL Password" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mysql_settings"]["mysql_password"] }}" value="{{ icad_config_data["mysql_settings"]["mysql_password"] }}" required>
+
+                <label id="mysql_database_label" for="mysql_database" data-bs-toggle="tooltip" data-bs-placement="top" title="Database to make the entry in." class="form-label w-50">MySQL Database</label>
+                <input type="text" id="mysql_database" name="mysql_database" data-bs-toggle="tooltip" data-bs-placement="top" title="Database to make the entry in." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mysql_settings"]["mysql_database"] }}" value="{{ icad_config_data["mysql_settings"]["mysql_database"] }}" required>
+
+                <label id="mysql_table_prefix_label" for="mysql_table_prefix" data-bs-toggle="tooltip" data-bs-placement="top" title="Prefix of the MySQL Table." class="form-label w-50">MySQL Table Prefix</label>
+                <input type="text" id="mysql_table_prefix" name="mysql_table_prefix" data-bs-toggle="tooltip" data-bs-placement="top" title="Prefix of the MySQL Table." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mysql_settings"]["mysql_table_prefix"] }}" value="{{ icad_config_data["mysql_settings"]["mysql_table_prefix"] }}" >
+
+                <button type="submit" name="submit" value="save_mysql" class="mb-4 btn btn-outline-success">Save</button>
+            </form>
+        <form id="mysql_create" method="post">
+            <p>If all of your credentials are correct above you can create the database here.</p>
+            <button type="submit" name="submit" value="create_mysql" class="mb-4 btn btn-outline-success">Create MySQL Database</button>
+        </form>
+        </div>
+    </div>
+{% endblock %}

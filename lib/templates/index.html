@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="row">
+    <h1>{% block title %} iCAD Web Ui {% endblock %}</h1>
+    <hr />
+    <div class="col mb-5">
+        <h4>App Controls</h4>
+        <form action="/control/" method="post">
+            <button class="btn btn-md btn-outline-warning me-2" value="restart" name="restart_button" type="submit">Restart</button>
+            <button class="btn btn-md btn-outline-danger" value="exit" name="exit_button" type="submit">Exit</button>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        <h4>iCAD Logs</h4>
+        <div id="terminal_home" class="terminal-home">
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function() {
+    if (window.location.href.indexOf("franky") > -1) {
+      alert("your url contains the name franky");
+    }
+  });
+</script>
+<script>
+     var source = new EventSource("/get_log");
+	source.onmessage = function(event) {
+		// $('#display').prepend(event.data);
+        if (event.data.includes("[30m")){
+            new_text = event.data.replace("[30m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: #2a2a2a" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[31m")){
+            new_text = event.data.replace("[31m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: indianred" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[32m")){
+            new_text = event.data.replace("[32m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: darkseagreen" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[33m")){
+            new_text = event.data.replace("[33m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: #c2c200" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[34m")){
+            new_text = event.data.replace("[34m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: dodgerblue" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[35m")){
+            new_text = event.data.replace("[35m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: #b200b2" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[36m")){
+            new_text = event.data.replace("[36m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: #00b9b9" class="console">'+new_text+'</p>');
+        }
+        else if (event.data.includes("[37m")){
+            new_text = event.data.replace("[37m", "").replace("[0m", "").replace("", "")
+            $('#terminal_home').prepend('<p style="color: floralwhite" class="console">'+new_text+'</p>');
+        }
+        else{
+            new_text = event.data
+            $('#terminal_home').prepend('<p style="color: #c0c0c0" class="console">'+new_text+'</p>');
+        }
+		if(event.data === 100){
+			source.close()
+		}
+	}
+
+	var source_progress = new EventSource("/get_progress");
+	source_progress.onmessage = function(event) {
+		if(event.data === 100){
+			source_progress.close()
+		}
+	}
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% block title %} Email Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <form method="post">
+                <ul class="nav nav-tabs" id="email_tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="conf-link nav-link active" id="general_email-tab" data-bs-toggle="tab" data-bs-target="#general_email-tab-pane" type="button" role="tab" aria-controls="general_email-tab-pane" aria-selected="true">General</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="conf-link nav-link" id="pre_email-tab" data-bs-toggle="tab" data-bs-target="#pre_email-tab-pane" type="button" role="tab" aria-controls="pre_email-tab-pane" aria-selected="false">Pre Recording</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="conf-link nav-link" id="post_email-tab" data-bs-toggle="tab" data-bs-target="#post_email-tab-pane" type="button" role="tab" aria-controls="post_email-tab-pane" aria-selected="false">Post Recording</button>
+                        </li>
+                </ul>
+                <div class="tab-content" id="emailTabContent">
+                    <div class="tab-pane fade show active" id="general_email-tab-pane" role="tabpanel" aria-labelledby="general_email-tab" tabindex="0">
+
+                        <h5 class="mt-3 mb-3">Email Configuration</h5>
+
+                        <label id="email_hostname_label" for="email_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Hostname" class="form-label w-50">SMTP Hostname or IP</label>
+                        <input type="text" id="email_hostname" name="email_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Hostname" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["smtp_hostname"] }}" value="{{ icad_config_data["email"]["smtp_hostname"] }}" required>
+
+                        <label id="email_port_label" for="email_port" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Port Number" class="form-label w-50">SMTP Port</label>
+                        <input type="text" id="email_port" name="email_port" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Port Number" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["smtp_port"] }}" value="{{ icad_config_data["email"]["smtp_port"] }}" required>
+
+                        <label id="email_username_label" for="email_username" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Username, normally your email address." class="form-label w-50">SMTP Username</label>
+                        <input type="text" id="email_username" name="email_username" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Username, normally your email address." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["smtp_username"] }}" value="{{ icad_config_data["email"]["smtp_username"] }}" required>
+
+                        <label id="email_password_label" for="email_password" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Password" class="form-label w-50">SMTP Password</label>
+                        <input type="password" id="email_password" name="email_password" data-bs-toggle="tooltip" data-bs-placement="top" title="SMTP Password" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["smtp_password"] }}" value="{{ icad_config_data["email"]["smtp_password"] }}" required>
+
+                        <label id="email_address_label" for="email_address" data-bs-toggle="tooltip" data-bs-placement="top" title="Email Address" class="form-label w-50">Email Address</label>
+                        <input type="email" id="email_address" name="email_address" data-bs-toggle="tooltip" data-bs-placement="top" title="Email Address" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["email_address_from"] }}" value="{{ icad_config_data["email"]["email_address_from"] }}" required>
+
+                        <label id="email_address_text_label" for="email_address_text" data-bs-toggle="tooltip" data-bs-placement="top" title="Email from name." class="form-label w-50">Email From Name</label>
+                        <input type="text" id="email_address_text" name="email_address_text" data-bs-toggle="tooltip" data-bs-placement="top" title="Email from name." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["email_text_from"] }}" value="{{ icad_config_data["email"]["email_text_from"] }}">
+
+                        <label data-bs-toggle="tooltip" data-bs-placement="top" title="Sends the email as a single message with all contacts BCC" class="mt-3 form-label w-50" >Email as Single Message</label>
+                        <br>
+                        {% block radios_single %}
+                            {% if icad_config_data["email"]["send_as_single_email"] == 1 %}
+                                <input checked type="radio" id="send_as_single_enable" name="send_as_single_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends the email as a single message with all contacts BCC." value=1>
+                                <label for="send_as_single_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable sending email as one with all contacts on BCC?" class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="send_as_single_disable" name="send_as_single_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends the email as a single message with all contacts BCC" value=0>
+                                <label for="send_as_single_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable sending email as one with all contacts on BCC?">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="send_as_single_enable" name="send_as_single_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends the email as a single message with all contacts BCC" value=1>
+                                <label for="send_as_single_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable sending email as one with all contacts on BCC?" class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="send_as_single_disable" name="send_as_single_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends the email as a single message with all contacts BCC" value=0>
+                                <label for="send_as_single_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable sending email as one with all contacts on BCC?">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                    </div>
+                    <div class="tab-pane fade" id="pre_email-tab-pane" role="tabpanel" aria-labelledby="pre_email-tab" tabindex="0">
+                        <h5 class="mt-3 mb-3">Pre Record Email Configuration</h5>
+                        <label data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails before detection alert is recorded." class="mt-3 form-label w-50" >Pre Record Email Status</label><br>
+                        {% block radios_pre %}
+                            {% if icad_config_data["email"]["pre_record_enabled"] == 1 %}
+                                <input checked type="radio" id="pre_email_enable" name="pre_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails before detection alert is recorded." value=1>
+                                <label for="pre_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Pre Recording Email Messages?" class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="pre_email_disable" name="pre_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails before detection alert is recorded." value=0>
+                                <label for="pre_email_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Pre Recording Email Messages?">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="pre_email_enable" name="pre_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails before detection alert is recorded." value=1>
+                                <label for="pre_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Pre Recording Email Messages?" class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="pre_email_disable" name="pre_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails before detection alert is recorded." value=0>
+                                <label for="pre_email_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Pre Recording Email Messages?">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                        <label id="pre_record_subject_label" for="pre_record_subject" data-bs-toggle="tooltip" data-bs-placement="top" title="Pre Recording Email Subject" class="form-label w-50">Pre Recording Email Subject</label>
+                        <input type="text" id="pre_record_subject" name="pre_record_subject" data-bs-toggle="tooltip" data-bs-placement="top" title="Post Recording Email Subject" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["pre_record_subject"] }}" value="{{ icad_config_data["email"]["pre_record_subject"] }}">
+
+                        <label id="pre_record_body_label" for="pre_record_body" data-bs-toggle="tooltip" data-bs-placement="top" title="Pre Recording Email Body" class="form-label w-50">Pre Recording Email Body</label>
+                        <textarea rows="5" cols="50" id="pre_record_body" name="pre_record_body" data-bs-toggle="tooltip" data-bs-placement="top" title="Pre Recording Email Body" class="form-control mb-3 w-50">{{ icad_config_data["email"]["pre_record_body"] }}</textarea>
+                    </div>
+                    <div class="tab-pane fade" id="post_email-tab-pane" role="tabpanel" aria-labelledby="post_email-tab" tabindex="0">
+                        <h5 class="mt-3 mb-3">Post Record Email Configuration</h5>
+                        <label data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails after detection alert is recorded." class="mt-3 form-label w-50" >Post Record Email Status</label><br>
+                        {% block radios_post %}
+                            {% if icad_config_data["email"]["post_record_enabled"] == 1 %}
+                                <input checked type="radio" id="post_email_enable" name="post_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails after detection alert is recorded." value=1>
+                                <label for="post_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Post Recording Email Messages?" class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="post_email_disable" name="post_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails after detection alert is recorded." value=0>
+                                <label for="post_email_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Post Recording Email Messages?">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="post_email_enable" name="post_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails after detection alert is recorded." value=1>
+                                <label for="post_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Post Recording Email Messages?" class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="post_email_disable" name="post_email_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends emails after detection alert is recorded." value=0>
+                                <label for="post_email_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Post Recording Email Messages?">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                        <label id="post_record_subject_label" for="post_record_subject" data-bs-toggle="tooltip" data-bs-placement="top" title="Post Recording Email Subject" class="form-label w-50">Post Recording Email Subject</label>
+                        <input type="text" id="post_record_subject" name="post_record_subject" data-bs-toggle="tooltip" data-bs-placement="top" title="Post Recording Email Subject" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["email"]["post_record_subject"] }}" value="{{ icad_config_data["email"]["post_record_subject"] }}">
+
+                        <label id="post_record_body_label" for="post_record_body" data-bs-toggle="tooltip" data-bs-placement="top" title="Post Recording Email Body" class="form-label w-50">Post Recording Email Body</label>
+                        <textarea rows="5" cols="50" id="post_record_body" name="post_record_body" data-bs-toggle="tooltip" data-bs-placement="top" title="Post Recording Email Body" class="form-control mb-3 w-50">{{ icad_config_data["email"]["post_record_body"] }}</textarea>
+                    </div>
+                </div>
+                <button type="submit" name="submit" value="save_email" class="mb-4 btn btn-outline-success">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

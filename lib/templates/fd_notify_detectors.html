@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} FD Tone Notify Configuration {% endblock %}</h1>
+    <hr />
+    <h3>Detector Configuration</h3>
+    <div class="row">
+        <div class="col">
+            <div id="detector_selection_div">
+                <select id="detector_selection" class="form-select mb-lg-5 w-50" aria-label="Detector Selection">
+                    <option name="none" selected>Detector Selection</option>
+                    {% for detector in fdn_config_data["detection"]["detectors"] %}
+                        <option name="{{ detector["name"] }}" value="{{ detector }}">{{ detector["name"] }}</option>
+                    {% endfor %}
+                    {% block fdn_detector_selector %} {% endblock %}
+                    <option name="new_detector" value="{{ fdn_new_detector_template }}">Add New Detector</option>
+                </select>
+            </div>
+            <form id="detector_input_form" method="post">
+                <div id="detector_input_div" class="detector_input">
+                    <input type="hidden" id="detector_id" name="detector_id">
+                    <label id="detector_name_label" for="detector_name" data-bs-toggle="tooltip" data-bs-placement="top" title="Detector Name" class="form-label w-50">Detector Name</label>
+                    <input type="text" id="detector_name" name="detector_name" data-bs-toggle="tooltip" data-bs-placement="top" title="Detector Name" class="form-control mb-3 w-50">
+                    <label id="detector_tones_label" for="detector_tones" data-bs-toggle="tooltip" data-bs-placement="top" title="Comma seperated 1290.1,667" class="form-label w-50">Detector Tones</label>
+                    <input type="text" id="detector_tones" name="detector_tones" data-bs-toggle="tooltip" data-bs-placement="top" title="Comma seperated 1290.1,667" class="form-control mb-3 w-50">
+                    <label id="detector_match_threshold_label" for="detector_match_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Number of samples needed for a frequency match." class="form-label w-50">Detector Match Threshold</label>
+                    <input type="text" id="detector_match_threshold" name="detector_match_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Number of samples needed for a frequency match." class="form-control mb-3 w-50">
+                    <label id="detector_tolerance_percent_label" for="detector_tolerance_percent" data-bs-toggle="tooltip" data-bs-placement="top" title="plus/minus tolerance in decimal form applied to a frequency to determine a match. 0.05 is 5%" class="form-label w-50">Detector Match Tolerance</label>
+                    <input type="text" id="detector_tolerance_percent" name="detector_tolerance_percent" data-bs-toggle="tooltip" data-bs-placement="top" title="plus/minus tolerance in decimal form applied to a frequency to determine a match. 0.05 is 5%" class="form-control mb-5 w-50">
+                    <button type="submit" name="save_button" value="detector_save" class="btn btn-outline-success">Save Detector</button>
+                    <button type="submit" name="delete_button" value="detector_delete" class="btn btn-outline-danger">Delete Detector</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

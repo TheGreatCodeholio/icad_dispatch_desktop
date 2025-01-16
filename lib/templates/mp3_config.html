@@ -1,0 +1,350 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} MP3 Manipulation Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs" id="mp3_tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link active" id="mp3_general-tab" data-bs-toggle="tab" data-bs-target="#mp3_general-tab-pane" type="button" role="tab" aria-controls="mp3_general-tab-pane" aria-selected="true">General</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_clipping-tab" data-bs-toggle="tab" data-bs-target="#mp3_clipping-tab-pane" type="button" role="tab" aria-controls="mp3_clipping-tab-pane" aria-selected="false">Clipping Fix</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_noise_filter-tab" data-bs-toggle="tab" data-bs-target="#mp3_noise_filter-tab-pane" type="button" role="tab" aria-controls="mp3_noise_filter-tab-pane" aria-selected="false">Noise Filter</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_silence-tab" data-bs-toggle="tab" data-bs-target="#mp3_silence-tab-pane" type="button" role="tab" aria-controls="mp3_silence-tab-pane" aria-selected="false">Silence Removal</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_remove_tones-tab" data-bs-toggle="tab" data-bs-target="#mp3_remove_tones-tab-pane" type="button" role="tab" aria-controls="mp3_remove_tones-tab-pane" aria-selected="false">Tones Removal</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_high_pass-tab" data-bs-toggle="tab" data-bs-target="#mp3_high_pass-tab-pane" type="button" role="tab" aria-controls="mp3_high_pass-tab-pane" aria-selected="false">High Pass</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_low_pass-tab" data-bs-toggle="tab" data-bs-target="#mp3_low_pass-tab-pane" type="button" role="tab" aria-controls="mp3_low_pass-tab-pane" aria-selected="false">Low Pass</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_gain-tab" data-bs-toggle="tab" data-bs-target="#mp3_gain-tab-pane" type="button" role="tab" aria-controls="mp3_gain-tab-pane" aria-selected="false">Gain</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_convert_stereo-tab" data-bs-toggle="tab" data-bs-target="#mp3_convert_stereo-tab-pane" type="button" role="tab" aria-controls="mp3_convert_stereo-tab-pane" aria-selected="false">Stereo</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_text_2_speech-tab" data-bs-toggle="tab" data-bs-target="#mp3_text_2_speech-tab-pane" type="button" role="tab" aria-controls="mp3_text_2_speech-tab-pane" aria-selected="false">Text To Speech</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="mp3_append_file-tab" data-bs-toggle="tab" data-bs-target="#mp3_append_file-tab-pane" type="button" role="tab" aria-controls="mp3_append_file-tab-pane" aria-selected="false">Append Audio</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="mp3TabContent">
+
+                <div class="tab-pane fade show active" id="mp3_general-tab-pane" role="tabpanel" aria-labelledby="mp3_general-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="General Settings.">General</h5>
+                    <form id="general_form" method="post">
+                        <label id="bitrate_label" for="bitrate" data-bs-toggle="tooltip" data-bs-placement="top" title="MP3 Bitrate." class="form-label w-50">MP3 File Bitrate</label>
+                        <select id="bitrate" name="bitrate">
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 8 %}
+                                <option selected name="8" value=8>8kbps</option>
+                            {% else %}
+                                <option name="8" value=8>8kbps</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 16 %}
+                                <option selected name="16" value=16>16kbps</option>
+                            {% else %}
+                                <option name="16" value=16>16kbps</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 32 %}
+                                <option selected name="32" value=32>32kbps</option>
+                            {% else %}
+                                <option name="32" value=32>32kbps</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 64 %}
+                                <option selected name="64" value=64>64kbps</option>
+                            {% else %}
+                                <option name="64" value=64>64kbps</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 96 %}
+                                <option selected name="96" value=96>96kbps</option>
+                            {% else %}
+                                <option name="96" value=96>96kbps</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 128 %}
+                                <option selected name="128" value=128>128kbps</option>
+                            {% else %}
+                                <option name="128" value=128>128kbps</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["bitrate"] == 192 %}
+                                <option selected name="192" value=192>192kbps</option>
+                            {% else %}
+                                <option name="192" value=192>192kbps</option>
+                            {% endif %}
+                        </select>
+                    <br>
+                    <button type="submit" name="submit" value="mp3_general" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_clipping-tab-pane" role="tabpanel" aria-labelledby="mp3_clipping-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Fixes clipping by softening clipping audio.">Clipping</h5>
+                    <form id="clipping_form" method="post">
+                        {% block clipping_radios %}
+                        {% if icad_config_data["mp3_settings"]["fix_clipping"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_clipping_enable" name="mp3_clipping_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables clipping softening." value=1>
+                            <label for="mp3_clipping_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable clipping softening." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_clipping_disable" name="mp3_clipping_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables clipping softening." value=0>
+                            <label for="mp3_clipping_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable clipping softening." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_clipping_enable" name="mp3_clipping_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables clipping softening." value=1>
+                            <label for="mp3_clipping_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable clipping softening." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_clipping_disable" name="mp3_clipping_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables clipping softening." value=0>
+                            <label for="mp3_clipping_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable clipping softening." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+                        <br>
+                        <button type="submit" name="submit" value="mp3_clipping" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_noise_filter-tab-pane" role="tabpanel" aria-labelledby="mp3_noise_filter-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Filters noise from audio.">Noise Filter</h5>
+                    <form id="noise_form" method="post">
+                        {% block noise_radios %}
+                        {% if icad_config_data["mp3_settings"]["noise_filter"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_noise_filter_enable" name="mp3_noise_filter_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables filtering noise from audio." value=1>
+                            <label for="mp3_noise_filter_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable filtering noise from audio." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_noise_filter_disable" name="mp3_noise_filter_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables filtering noise from audio." value=0>
+                            <label for="mp3_noise_filter_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable filtering noise from audio." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_noise_filter_enable" name="mp3_noise_filter_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables filtering noise from audio." value=1>
+                            <label for="mp3_noise_filter_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable filtering noise from audio." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_noise_filter_disable" name="mp3_noise_filter_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables filtering noise from audio." value=0>
+                            <label for="mp3_noise_filter_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable filtering noise from audio." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+                        <label id="noise_label" for="noise_model" data-bs-toggle="tooltip" data-bs-placement="top" title="Noise Model." class="form-label w-50">Noise Reduction Model</label>
+                        <select id="noise_model" name="noise_model">
+                            {% if icad_config_data["mp3_settings"]["noise_filter"]["model"] == 0 %}
+                                <option selected name="0" value=0>General Noise</option>
+                            {% else %}
+                                <option name="0" value=0>General Noise</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["noise_filter"]["model"] == 1 %}
+                                <option selected name="1" value=1>Moderate Noise</option>
+                            {% else %}
+                                <option name="1" value=1>Moderate Noise</option>
+                            {% endif %}
+                            {% if icad_config_data["mp3_settings"]["noise_filter"]["model"] == 2 %}
+                                <option selected name="2" value=2>Heavy Noise</option>
+                            {% else %}
+                                <option name="2" value=2>Heavy Noise</option>
+                            {% endif %}
+                        </select>
+                        <br>
+                        <button type="submit" name="submit" value="mp3_noise" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_silence-tab-pane" role="tabpanel" aria-labelledby="mp3_silence-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Trims silence from recording.">Silence Removal</h5>
+                    <form id="mp3_silence" method="post">
+                        {% block remove_silence_radios %}
+                        {% if icad_config_data["mp3_settings"]["remove_silence"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_silence_enable" name="mp3_remove_silence_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables trimming audio on silence." value=1>
+                            <label for="mp3_silence_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable trimming audio on silence?" class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_silence_disable" name="mp3_remove_silence_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables trimming audio on silence." value=0>
+                            <label for="mp3_silence_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable trimming audio on silence?" class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_silence_enable" name="mp3_remove_silence_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables trimming audio on silence." value=1>
+                            <label for="mp3_silence_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable trimming audio on silence?" class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_silence_disable" name="mp3_remove_silence_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables trimming audio on silence." value=0>
+                            <label for="mp3_silence_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable trimming audio on silence?" class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+                        <br>
+
+                        <label id="min_silence_length_label" for="min_silence_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Minimum silence length in seconds." class="form-label w-50">Minimum Silence Length</label>
+                        <input type="text" id="min_silence_length" name="min_silence_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Minium silence length in seconds." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["remove_silence"]["min_silence_length"] }}" value="{{ icad_config_data["mp3_settings"]["remove_silence"]["min_silence_length"] }}">
+
+                        <label id="silence_threshold_label" for="silence_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Silence volume threshold in DB." class="form-label w-50">Silence Threshold</label>
+                        <input type="text" id="silence_threshold" name="silence_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Silence volume threshold in DB." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["remove_silence"]["silence_threshold"] }}" value="{{ icad_config_data["mp3_settings"]["remove_silence"]["silence_threshold"] }}">
+
+                        <button type="submit" name="submit" value="mp3_silence" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_high_pass-tab-pane" role="tabpanel" aria-labelledby="mp3_high_pass-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends audio through high pass filter.">High Pass Filter</h5>
+                    <form id="mp3_high_pass" method="post">
+
+                        {% block high_pass_radios %}
+                        {% if icad_config_data["mp3_settings"]["high_pass_filter"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_high_pass_enable" name="mp3_high_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables high pass filter." value=1>
+                            <label for="mp3_high_pass_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables high pass filter." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_high_pass_disable" name="mp3_high_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables high pass filter." value=0>
+                            <label for="mp3_high_pass_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables high pass filter." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_high_pass_enable" name="mp3_high_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables high pass filter." value=1>
+                            <label for="mp3_high_pass_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables high pass filter." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_high_pass_disable" name="mp3_high_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables high pass filter." value=0>
+                            <label for="mp3_high_pass_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables high pass filter." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+
+                        <label id="high_cutoff_freq_label" for="high_cutoff_freq" data-bs-toggle="tooltip" data-bs-placement="top" title="High pass cutoff frequency in Hz." class="form-label w-50">Cutoff Frequency</label>
+                        <input type="text" id="high_cutoff_freq" name="high_cutoff_freq" data-bs-toggle="tooltip" data-bs-placement="top" title="High pass cutoff frequency in Hz." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["high_pass_filter"]["cutoff_freq"] }}" value="{{ icad_config_data["mp3_settings"]["high_pass_filter"]["cutoff_freq"] }}">
+
+                        <button type="submit" name="submit" value="mp3_high_pass" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_low_pass-tab-pane" role="tabpanel" aria-labelledby="mp3_low_pass-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends audio through low pass filter.">Low Pass Filter</h5>
+                    <form id="mp3_low_pass" method="post">
+                        {% block low_pass_radios %}
+                        {% if icad_config_data["mp3_settings"]["low_pass_filter"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_low_pass_enable" name="mp3_low_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables low pass filter." value=1>
+                            <label for="mp3_low_pass_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables low pass filter." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_low_pass_disable" name="mp3_low_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables low pass filter." value=0>
+                            <label for="mp3_low_pass_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables low pass filter." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_low_pass_enable" name="mp3_low_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables low pass filter." value=1>
+                            <label for="mp3_low_pass_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables low pass filter." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_low_pass_disable" name="mp3_low_pass_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables low pass filter." value=0>
+                            <label for="mp3_low_pass_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables low pass filter." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+
+                        <label id="low_cutoff_freq_label" for="low_cutoff_freq" data-bs-toggle="tooltip" data-bs-placement="top" title="Low pass cutoff frequency in Hz." class="form-label w-50">Cutoff Frequency</label>
+                        <input type="text" id="low_cutoff_freq" name="low_cutoff_freq" data-bs-toggle="tooltip" data-bs-placement="top" title="Low pass cutoff frequency in Hz." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["low_pass_filter"]["cutoff_freq"] }}" value="{{ icad_config_data["mp3_settings"]["low_pass_filter"]["cutoff_freq"] }}">
+
+                        <button type="submit" name="submit" value="mp3_low_pass" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_gain-tab-pane" role="tabpanel" aria-labelledby="mp3_gain-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Sends audio through gain filter to increase or decrease volume.">Gain Filter</h5>
+                    <form id="mp3_gain" method="post">
+
+                        {% block gain_radios %}
+                        {% if icad_config_data["mp3_settings"]["gain_filter"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_gain_enable" name="mp3_gain_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables gain filter." value=1>
+                            <label for="mp3_gain_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables gain filter." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_gain_disable" name="mp3_gain_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables gain filter." value=0>
+                            <label for="mp3_gain_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables gain filter." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_gain_enable" name="mp3_gain_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables gain filter." value=1>
+                            <label for="mp3_gain_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables gain filter." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_gain_disable" name="mp3_gain_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables gain filter." value=0>
+                            <label for="mp3_gain_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables gain filter." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+
+                        <label id="gain_db_label" for="gain_db" data-bs-toggle="tooltip" data-bs-placement="top" title="Gain level in DB." class="form-label w-50">Gain DB</label>
+                        <input type="text" id="gain_db" name="gain_db" data-bs-toggle="tooltip" data-bs-placement="top" title="Gain level in DB." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["gain_filter"]["gain_db"] }}" value="{{ icad_config_data["mp3_settings"]["gain_filter"]["gain_db"] }}">
+
+                        <button type="submit" name="submit" value="mp3_gain" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_convert_stereo-tab-pane" role="tabpanel" aria-labelledby="mp3_convert_stereo-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Converts audio recording to Stereo.">Convert to Stereo</h5>
+                    <form id="mp3_convert_stereo" method="post">
+                        {% block stereo_radios %}
+                        {% if icad_config_data["mp3_settings"]["convert_to_stereo"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_convert_stereo_enable" name="mp3_convert_stereo_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables converting recorded file to stereo." value=1>
+                            <label for="mp3_convert_stereo_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables converting recorded file to stereo." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_convert_stereo_disable" name="mp3_convert_stereo_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables converting recorded file to stereo." value=0>
+                            <label for="mp3_convert_stereo_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables converting recorded file to stereo." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_convert_stereo_enable" name="mp3_convert_stereo_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables converting recorded file to stereo." value=1>
+                            <label for="mp3_convert_stereo_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables converting recorded file to stereo." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_convert_stereo_disable" name="mp3_convert_stereo_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables converting recorded file to stereo." value=0>
+                            <label for="mp3_convert_stereo_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables converting recorded file to stereo." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+
+                        <button type="submit" name="submit" value="mp3_convert_stereo" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_text_2_speech-tab-pane" role="tabpanel" aria-labelledby="mp3_text_2_speech-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Appends detector name spoken by computer to beginning of MP3.">Text To Speech</h5>
+                    <form id="mp3_text_to_speech" method="post">
+                        {% block append_text_to_speech_radios %}
+                        {% if icad_config_data["mp3_settings"]["append_text_to_speech"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_text_2_speech_enable" name="mp3_text_2_speech_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables text to speech." value=1>
+                            <label for="mp3_text_2_speech_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables text to speech." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_text_2_speech_disable" name="mp3_text_2_speech_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables text to speech." value=0>
+                            <label for="mp3_text_2_speech_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables text to speech." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_text_2_speech_enable" name="mp3_text_2_speech_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables text to speech." value=1>
+                            <label for="mp3_text_2_speech_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables text to speech." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_text_2_speech_disable" name="mp3_text_2_speech_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables text to speech." value=0>
+                            <label for="mp3_text_2_speech_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables text to speech." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+                        <br>
+                        <label id="speech_rate_label" for="speech_rate" data-bs-toggle="tooltip" data-bs-placement="top" title="Speed at which voice speaks." class="form-label w-50">Speech Rate</label>
+                        <input type="text" id="speech_rate" name="speech_rate" data-bs-toggle="tooltip" data-bs-placement="top" title="Speed at which voice speaks." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["append_text_to_speech"]["speech_rate"] }}" value="{{ icad_config_data["mp3_settings"]["append_text_to_speech"]["speech_rate"] }}">
+                        <button type="submit" name="submit" value="mp3_text_2_speech" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_append_file-tab-pane" role="tabpanel" aria-labelledby="mp3_append_file-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Appends mp3 audio file to beginning of MP3.">Append Audio</h5>
+                    <form id="mp3_append_file" method="post">
+                        {% block append_file_radios %}
+                        {% if icad_config_data["mp3_settings"]["append_audio_file"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_append_audio_file_enable" name="mp3_append_audio_file_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables appending audio to beginning of recorded file." value=1>
+                            <label for="mp3_append_audio_file_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables appending audio to beginning of recorded file." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_append_audio_file_disable" name="mp3_append_audio_file_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables appending audio to beginning of recorded file." value=0>
+                            <label for="mp3_append_audio_file_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables appending audio to beginning of recorded file." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="mp3_append_audio_file_enable" name="mp3_append_audio_file_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables appending audio to beginning of recorded file." value=1>
+                            <label for="mp3_append_audio_file_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables appending audio to beginning of recorded file." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="mp3_append_audio_file_disable" name="mp3_append_audio_file_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables appending audio to beginning of recorded file." value=0>
+                            <label for="mp3_append_audio_file_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables appending audio to beginning of recorded file." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+                        <button type="submit" name="submit" value="mp3_append_file" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="mp3_remove_tones-tab-pane" role="tabpanel" aria-labelledby="mp3_remove_tones-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes tones from mp3 audio file.">Remove Tones</h5>
+                    <form id="mp3_remove_tones_file" method="post">
+                        {% block remove_tones_radios %}
+                        {% if icad_config_data["mp3_settings"]["append_audio_file"]["enabled"] == 1 %}
+                            <input checked type="radio" id="mp3_remove_tones_enable" name="mp3_remove_tones_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables removing tones from MP3 audio." value=1>
+                            <label for="mp3_remove_tones_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables removing tones from MP3 audio." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_remove_tones_disable" name="mp3_remove_tones_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables removing tones from MP3 audio." value=0>
+                            <label for="mp3_append_audio_file_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables removing tones from MP3 audio." class="form-label w-50">Disabled</label><br>
+                        {% else %}
+                            <input checked type="radio" id="mp3_remove_tones_enable" name="mp3_remove_tones_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables removing tones from MP3 audio." value=1>
+                            <label for="mp3_remove_tones_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables removing tones from MP3 audio." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="mp3_remove_tones_disable" name="mp3_remove_tones_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables removing tones from MP3 audio." value=0>
+                            <label for="mp3_append_audio_file_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables removing tones from MP3 audio." class="form-label w-50">Disabled</label><br>
+                       {% endif %}
+                       {% endblock %}
+
+                        <label id="remove_tones_min_silence_length_label" for="remove_tones_min_silence_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Minimum silence length in seconds." class="form-label w-50">Minimum Silence Length</label>
+                        <input type="text" id="remove_tones_min_silence_length" name="remove_tones_min_silence_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Minium silence length in seconds." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["remove_tones"]["min_silence_length"] }}" value="{{ icad_config_data["mp3_settings"]["remove_tones"]["min_silence_length"] }}">
+
+                        <label id="remove_tones_silence_threshold_label" for="remove_tones_silence_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Silence volume threshold in DB." class="form-label w-50">Silence Threshold</label>
+                        <input type="text" id="remove_tones_silence_threshold" name="remove_tones_silence_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Silence volume threshold in DB." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["mp3_settings"]["remove_tones"]["silence_threshold"] }}" value="{{ icad_config_data["mp3_settings"]["remove_tones"]["silence_threshold"] }}">
+                        <button type="submit" name="submit" value="mp3_remove_tones" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+
+
+
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

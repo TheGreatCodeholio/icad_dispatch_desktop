@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% block title %} SFTP Uploader Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Uploader Settings.">SFTP Uploader</h5>
+            <form id="ftp_form" method="post">
+
+                {% block radios_sftp %}
+                    {% if icad_config_data["ftp_settings"]["enabled"] == 1 %}
+                        <input checked type="radio" id="ftp_enable" name="ftp_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Uploads recorded audio via SSH credentials over SFTP" value=1>
+                        <label for="ftp_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable uploading audio recording via SFTP." class="form-label w-50">Enabled</label><br>
+                        <input type="radio" id="ftp_disable" name="ftp_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Uploads recorded audio via SSH credentials over SFTP" value=0>
+                        <label for="ftp_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable uploading audio recording via SFTP.">Disabled</label><br>
+                    {% else %}
+                        <input type="radio" id="ftp_enable" name="ftp_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Uploads recorded audio via SSH credentials over SFTP" value=1>
+                        <label for="ftp_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable uploading audio recording via SFTP." class="form-label w-50">Enabled</label><br>
+                        <input checked type="radio" id="ftp_disable" name="ftp_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Uploads recorded audio via SSH credentials over SFTP" value=0>
+                        <label for="ftp_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable uploading audio recording via SFTP.">Disabled</label><br>
+                    {% endif %}
+                {% endblock %}
+                <br>
+
+                <label id="ftp_hostname_label" for="ftp_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Hostname" class="form-label w-50">SFTP Hostname or IP</label>
+                <input type="text" id="ftp_hostname" name="ftp_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Hostname" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["ftp_settings"]["ftp_hostname"] }}" value="{{ icad_config_data["ftp_settings"]["ftp_hostname"] }}" required>
+
+                <label id="ftp_port_label" for="ftp_port" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Port" class="form-label w-50">SFTP Port</label>
+                <input type="text" id="ftp_port" name="ftp_port" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Port" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["ftp_settings"]["ftp_port"] }}" value="{{ icad_config_data["ftp_settings"]["ftp_port"] }}" required>
+
+                <label id="ftp_username_label" for="ftp_username" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Username" class="form-label w-50">SFTP Username</label>
+                <input type="text" id="ftp_username" name="ftp_username" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Username" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["ftp_settings"]["ftp_username"] }}" value="{{ icad_config_data["ftp_settings"]["ftp_username"] }}" required>
+
+                <label id="ftp_password_label" for="ftp_password" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Password" class="form-label w-50">SFTP Password</label>
+                <input type="password" id="ftp_password" name="ftp_password" data-bs-toggle="tooltip" data-bs-placement="top" title="SFTP Password" class="form-control mb-3 w-50" value="{{ icad_config_data["ftp_settings"]["ftp_password"] }}">
+
+                <label id="ftp_remote_path_label" for="ftp_remote_path" data-bs-toggle="tooltip" data-bs-placement="top" title="Remote path to upload audio file to." class="form-label w-50">SFTP Upload Path</label>
+                <input type="text" id="ftp_remote_path" name="ftp_remote_path" data-bs-toggle="tooltip" data-bs-placement="top" title="Remote path to upload audio file to." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["ftp_settings"]["remote_path"] }}" value="{{ icad_config_data["ftp_settings"]["remote_path"] }}" required>
+
+                <button type="submit" name="submit" value="save_sftp" class="mb-4 btn btn-outline-success">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">{% block title %} Redis Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Settings.">Redis Config</h5>
+            <form id="redis_form" method="post">
+
+                {% block redis_radios %}
+                {% if icad_config_data["redis_settings"]["enabled"] == 1 %}
+                <input checked type="radio" id="redis_enable" name="redis_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables using Redis Cache for detections." value=1>
+                <label for="redis_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables using Redis Cache for detections." class="form-label w-50">Enabled</label><br>
+                <input type="radio" id="redis_disable" name="redis_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables using Redis Cache for detections." value=0>
+                <label for="redis_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables using Redis Cache for detections." class="form-label w-50">Disabled</label><br>
+                {% else %}
+                <input type="radio" id="redis_enable" name="redis_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables using Redis Cache for detections." value=1>
+                <label for="redis_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enables using Redis Cache for detections." class="form-label w-50">Enabled</label><br>
+                <input checked type="radio" id="redis_disable" name="redis_status" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables using Redis Cache for detections." value=0>
+                <label for="redis_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disables using Redis Cache for detections." class="form-label w-50">Disabled</label><br>
+                {% endif %}
+                {% endblock %}
+
+                <label id="redis_hostname_label" for="redis_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Hostname" class="form-label w-50">Redis Hostname or IP</label>
+                <input type="text" id="redis_hostname" name="redis_hostname" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Hostname" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["redis_settings"]["redis_hostname"] }}" value="{{ icad_config_data["redis_settings"]["redis_hostname"] }}" required>
+
+                <label id="redis_port_label" for="redis_port" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Port" class="form-label w-50">Redis Port</label>
+                <input type="text" id="redis_port" name="redis_port" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Port" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["redis_settings"]["redis_port"] }}" value="{{ icad_config_data["redis_settings"]["redis_port"] }}" required>
+
+                <label id="redis_password_label" for="redis_password" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Password" class="form-label w-50">Redis Password</label>
+                <input type="password" id="redis_password" name="redis_password" data-bs-toggle="tooltip" data-bs-placement="top" title="Redis Password" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["redis_settings"]["redis_password"] }}" value="{{ icad_config_data["redis_settings"]["redis_password"] }}">
+
+                <label id="redis_queue_label" for="redis_queue" data-bs-toggle="tooltip" data-bs-placement="top" title="Key to store data in." class="form-label w-50">Redis Data Key Name</label>
+                <input type="text" id="redis_queue" name="redis_queue" data-bs-toggle="tooltip" data-bs-placement="top" title="Key to store data in." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["redis_settings"]["redis_key"] }}" value="{{ icad_config_data["redis_settings"]["redis_key"] }}" required>
+
+                <button type="submit" name="submit" value="save_redis" class="mb-4 btn btn-outline-success">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}

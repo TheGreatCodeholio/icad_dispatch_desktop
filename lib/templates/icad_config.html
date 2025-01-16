@@ -1,0 +1,373 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} iCad Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+    <div class="col">
+        <form method="post">
+
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link active" id="general-tab" data-bs-toggle="tab" data-bs-target="#general-tab-pane" type="button" role="tab" aria-controls="general-tab-pane" aria-selected="true">General</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="web_server-tab" data-bs-toggle="tab" data-bs-target="#web_server-tab-pane" type="button" role="tab" aria-controls="web_server-tab-pane" aria-selected="false">Web Server</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="audio-tab" data-bs-toggle="tab" data-bs-target="#audio-tab-pane" type="button" role="tab" aria-controls="audio-tab-pane" aria-selected="false">Audio</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="detection-tab" data-bs-toggle="tab" data-bs-target="#detection-tab-pane" type="button" role="tab" aria-controls="detection-tab-pane" aria-selected="false">Detection</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link conf-link" id="recording-tab" data-bs-toggle="tab" data-bs-target="#recording-tab-pane" type="button" role="tab" aria-controls="recording-tab-pane" aria-selected="false">Recording</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link conf-link" id="alerting-tab" data-bs-toggle="tab" data-bs-target="#alerting-tab-pane" type="button" role="tab" aria-controls="alerting-tab-pane" aria-selected="false">Alerting</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link conf-link" id="cleanup-tab" data-bs-toggle="tab" data-bs-target="#cleanup-tab-pane" type="button" role="tab" aria-controls="cleanup-tab-pane" aria-selected="false">File Cleanup</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="configTabContent">
+
+                <div class="tab-pane fade show active" id="general-tab-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
+                    <h4 class="mt-4 mb-2">General</h4>
+                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Shows debug info in logs." class="form-label w-50" >Debug</label><br>
+                    {% block radios_debug %}
+                        {% if icad_config_data["general"]["log_debug"] == 1 %}
+                            <input checked type="radio" id="log_debug_enable" name="config_log_debug" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows debug info in logs." value=1>
+                            <label for="log_debug_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Debug." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="log_debug_disable" name="config_log_debug" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows debug info in logs." value=0>
+                            <label for="log_debug_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Debug.">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="log_debug_enable" name="config_log_debug" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows debug info in logs." value=1>
+                            <label for="log_debug_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Debug." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="log_debug_disable" name="config_log_debug" data-bs-toggle="tooltip" data-bs-placement="top" title="Shows debug info in logs." value=0>
+                            <label for="log_debug_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Debug." class="form-label w-50">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Run with no tray icon or screen popups." class="form-label w-50" >Headless Mode</label><br>
+                    {% block radios_headless %}
+                        {% if icad_config_data["general"]["headless"] == 1 %}
+                            <input checked type="radio" id="headless_enable" name="config_headless" data-bs-toggle="tooltip" data-bs-placement="top" title="Run with no tray icon or screen popups." value=1>
+                            <label for="headless_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable headless." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="headless_disable" name="config_headless" data-bs-toggle="tooltip" data-bs-placement="top" title="Run with no tray icon or screen popups." value=0>
+                            <label for="headless_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable headless.">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="headless_enable" name="config_headless" data-bs-toggle="tooltip" data-bs-placement="top" title="Run with no tray icon or screen popups." value=1>
+                            <label for="headless_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable headless." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="headless_disable" name="config_headless" data-bs-toggle="tooltip" data-bs-placement="top" title="Run with no tray icon or screen popups." value=0>
+                            <label for="headless_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable headless." class="form-label w-50">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label for="config_base_url" data-bs-toggle="tooltip" data-bs-placement="top" title="Base URL for website." class="form-label w-50">Base URL</label>
+                    <input type="text" id="config_base_url" data-bs-toggle="tooltip" data-bs-placement="top" title="Base URL for website." name="config_base_url" class="form-control mb-3 w-50" value="{{ icad_config_data["general"]["base_url"] }}" placeholder="https://bcfirewire.com">
+
+                    <label for="config_url_audio_path" data-bs-toggle="tooltip" data-bs-placement="top" title="URL to path where audio is stored." class="form-label w-50">Audio URL Path</label>
+                    <input type="text" id="config_url_audio_path" name="config_url_audio_path" data-bs-toggle="tooltip" data-bs-placement="top" title="URL to path where audio is stored." class="form-control mb-3 w-50" value="{{ icad_config_data["general"]["url_audio_path"] }}" placeholder="https://bcfirewire.com/audio">
+                    <button id="general_save" type="submit" name="submit" class="btn btn-outline-success" value="icad_general_config">Save</button>
+                </div>
+
+                <div class="tab-pane fade" id="web_server-tab-pane" role="tabpanel" aria-labelledby="web_server-tab" tabindex="0">
+                    <h4 class="mt-4">Web GUI</h4>
+
+                    <label for="config_ip" data-bs-toggle="tooltip" data-bs-placement="top" title="IP to listen on." class="form-label w-50">IP</label>
+                    <input type="text" id="config_ip" data-bs-toggle="tooltip" data-bs-placement="top" title="IP to listen on." name="config_ip" class="form-control mb-3 w-50" value="{{ icad_config_data["web_gui"]["ip"] }}" placeholder="0.0.0.0">
+                    <label for="config_port" data-bs-toggle="tooltip" data-bs-placement="top" title="Port to listen on." class="form-label w-50">Port</label>
+                    <input type="text" id="config_port" name="config_port" data-bs-toggle="tooltip" data-bs-placement="top" title="Port to listen on." class="form-control mb-3 w-50" value="{{ icad_config_data["web_gui"]["port"] }}" placeholder="9911">
+
+                    <button id="general_save" type="submit" name="submit" class="btn btn-outline-success" value="icad_general_config">Save</button>
+                </div>
+
+                <div class="tab-pane fade" id="audio-tab-pane" role="tabpanel" aria-labelledby="audio-tab" tabindex="0">
+                    <h4 class="mt-4">Audio</h4>
+
+                    <label for="config_input_device_index" data-bs-toggle="tooltip" data-bs-placement="top" title="Audio Input Device" class="form-label w-50">Input Device</label>
+                    <select name="config_input_device_index" id="config_input_device_index" class="form-select" aria-label="audio_input_selector">
+                        {% for device in input_devices %}
+                            {% if device == icad_config_data["audio"]["input_device_index"] %}
+                                <option selected name="{{ device }}" value="{{ device }}">{{ input_devices[device] }}</option>
+                            {% else %}
+                                <option name="{{ device }}" value="{{ device }}">{{ input_devices[device] }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        {% block input_device_selector %} {% endblock %}
+                    </select>
+
+
+                    <label for="config_output_device_index" data-bs-toggle="tooltip" data-bs-placement="top" title="Audio Output Device" class="form-label w-50">Output Device</label>
+                    <select name="config_output_device_index" id="config_output_device_index" class="form-select" aria-label="audio_output_selector">
+                        {% for device in output_devices %}
+                            {% if device == icad_config_data["audio"]["output_device_index"] %}
+                                <option selected name="{{ device }}" value="{{ device }}">{{ output_devices[device] }}</option>
+                            {% else %}
+                                <option name="{{ device }}" value="{{ device }}">{{ output_devices[device] }}</option>
+                            {% endif %}
+                        {% endfor %}
+                        {% block output_device_selector %} {% endblock %}
+                    </select>
+                    <br>
+                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Trunk Recorder." class="form-label w-50" >Trunk Recorder</label><br>
+                    {% block radios_tr %}
+                        {% if icad_config_data["audio"]["trunk_recorder"]["enabled"] == 1 %}
+                            <input checked type="radio" id="trunk_recorder_enable" name="config_trunk_recorder" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Trunk Recorder Endpoint." value=1>
+                            <label for="trunk_recorder_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Trunk Recorder Endpoint." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="trunk_recorder_disable" name="config_trunk_recorder" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Trunk Recorder Endpoint." value=0>
+                            <label for="trunk_recorder_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Trunk Recorder Endpoint.">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="trunk_recorder_enable" name="config_trunk_recorder" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Trunk Recorder Endpoint." value=1>
+                            <label for="trunk_recorder_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Trunk Recorder Endpoint." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="trunk_recorder_disable" name="config_trunk_recorder" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Trunk Recorder Endpoint." value=0>
+                            <label for="trunk_recorder_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Trunk Recorder Endpoint.">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label for="config_trunk_recorder_pa_sink" data-bs-toggle="tooltip" data-bs-placement="top" title="Pulse Audio Sink To Play Trunk Recorder Audio On" class="form-label w-50">Pulse Audio Sink</label>
+                    <input type="text" id="config_trunk_recorder_pa_sink" name="config_trunk_recorder_pa_sink" data-bs-toggle="tooltip" data-bs-placement="top" title="Pulse Audio Sink To Play Trunk Recorder Audio On" class="form-control w-50" value="{{ icad_config_data["audio"]["trunk_recorder"]["pulse_sink"] }}" placeholder="{{ icad_config_data["audio"]["trunk_recorder"]["pulse_sink"] }}">
+                    <button id="general_save" type="submit" name="submit" class="btn btn-outline-success" value="icad_general_config">Save</button>
+                </div>
+                <div class="tab-pane fade" id="detection-tab-pane" role="tabpanel" aria-labelledby="detection-tab" tabindex="0">
+                    <h4 class="mt-4">Detection</h4>
+
+                    <label for="config_mode" data-bs-toggle="tooltip" data-bs-placement="top" title="Detection Mode" class="form-label w-50 mt-3">Detection Mode</label>
+                    <select name="config_mode" id="config_mode" class="form-select mb-4" aria-label="config_mode">
+                            {% if icad_config_data["detection"]["mode"] == 1 %}
+                                <option name="detection_finder" value="0">Tone Finder</option>
+                                <option selected name="detection_detect" value="1">Tone Detection</option>
+                                <option name="detection_detect_finder" value="2">Tone Detection and Finder</option>
+                            {% elif icad_config_data["detection"]["mode"] == 0 %}
+                                <option selected name="detection_finder" value="0">Tone Finder</option>
+                                <option name="detection_detect" value="1">Tone Detection</option>
+                                <option name="detection_detect_finder" value="2">Tone Detection and Finder</option>
+                            {% else %}
+                                <option name="detection_finder" value="0">Tone Finder</option>
+                                <option name="detection_detect" value="1">Tone Detection</option>
+                                <option selected name="detection_detect_finder" value="2">Tone Detection and Finder</option>
+                            {% endif %}
+                        {% block detector_mode_selector %} {% endblock %}
+                    </select>
+                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Detect tones using rounded mode in finder." class="form-label w-50" >Rounded Detection</label><br>
+                    {% block radios_rounded %}
+                        {% if icad_config_data["detection"]["rounded_detection"] == 1 %}
+                            <input checked type="radio" id="rounded_detection_enable" name="config_rounded_detection" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect tones using rounded mode in tone finder." value=1>
+                            <label for="rounded_detection_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Rounded Detection?" class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="rounded_detection_disable" name="config_rounded_detection" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect tones using rounded mode in tone finder." value=0>
+                            <label for="rounded_detection_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Rounded Detection?">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="rounded_detection_enable" name="config_rounded_detection" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect tones using rounded mode in tone finder." value=1>
+                            <label for="rounded_detection_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Rounded Detection?" class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="rounded_detection_disable" name="config_rounded_detection" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect tones using rounded mode in tone finder." value=0>
+                            <label for="rounded_detection_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Rounded Detection?" class="form-label w-50">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label for="config_rounded_detection_range" data-bs-toggle="tooltip" data-bs-placement="top" title="Range in HZ for rounded detection." class="form-label w-50">Rounded Detection Threshold</label>
+                    <input type="text" id="config_rounded_detection_range" name="config_rounded_detection_range" data-bs-toggle="tooltip" data-bs-placement="top" title="Range in HZ for rounded detection" class="form-control w-50" value="{{ icad_config_data["detection"]["rounded_detection_range"] }}" placeholder="{{ icad_config_data["detection"]["rounded_detection_range"] }}">
+                    <br>
+                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Detect Long Tones in finder." class="form-label w-50" >Detect Long Tones</label><br>
+                    {% block radios_rounded_long %}
+                        {% if icad_config_data["detection"]["find_long_tones"] == 1 %}
+                            <input checked type="radio" id="find_long_tones_enable" name="config_find_long_tones" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect long tones in tone finder." value=1>
+                            <label for="find_long_tones_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Long Tones Detection?" class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="find_long_tones_disable" name="config_find_long_tones" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect long tones finder." value=0>
+                            <label for="find_long_tones_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Long Tones Detection?">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="find_long_tones_enable" name="config_find_long_tones" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect long tones in tone finder." value=1>
+                            <label for="find_long_tones_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Long Tones Detection?" class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="find_long_tones_disable" name="config_find_long_tones" data-bs-toggle="tooltip" data-bs-placement="top" title="Detect long tones finder." value=0>
+                            <label for="find_long_tones_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Long Tones Detection?">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label for="config_rounded_long_tone_range" data-bs-toggle="tooltip" data-bs-placement="top" title="Range in HZ for rounded long tone detection." class="form-label w-50">Long Tone Rounded Range</label>
+                    <input type="text" id="config_rounded_long_tone_range" name="config_rounded_long_tone_range" data-bs-toggle="tooltip" data-bs-placement="top" title="Range in HZ for rounded long tone detection" class="form-control w-50" value="{{ icad_config_data["detection"]["long_tone_range"] }}" placeholder="{{ icad_config_data["detection"]["long_tone_range"] }}">
+                    <br>
+                    <label for="config_silence_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Silence Threshold for detection." class="form-label w-50">Silence Threshold</label>
+                    <input type="text" id="config_silence_threshold" name="config_silence_threshold" data-bs-toggle="tooltip" data-bs-placement="top" title="Silence Threshold for detection." class="form-control w-50" value="{{ icad_config_data["detection"]["silence_threshold"] }}" placeholder="{{ icad_config_data["detection"]["silence_threshold"] }}">
+
+                    <button id="general_save" type="submit" name="submit" class="mt-3 btn btn-outline-success" value="icad_general_config">Save</button>
+                </div>
+                <div class="tab-pane fade" id="recording-tab-pane" role="tabpanel" aria-labelledby="recording-tab" tabindex="0">
+                    <h4 class="mt-4">Recording</h4>
+
+                    <label data-bs-toggle="tooltip" data-bs-placement="top" title="Record Detections?" class="form-label w-50" >Detection Recording</label><br>
+                    {% block radios_record %}
+                        {% if icad_config_data["recording"]["enabled"] == 1 %}
+                            <input checked type="radio" id="recording_enable" name="config_recording" data-bs-toggle="tooltip" data-bs-placement="top" title="Record after a tone detection." value=1>
+                            <label for="recording_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable recording audio after a detection?" class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="recording_disable" name="config_recording" data-bs-toggle="tooltip" data-bs-placement="top" title="Record after a tone detection." value=0>
+                            <label for="recording_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable recording audio after a detection?">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="recording_enable" name="config_recording" data-bs-toggle="tooltip" data-bs-placement="top" title="Record after a tone detection." value=1>
+                            <label for="recording_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable recording audio after a detection?" class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="recording_disable" name="config_recording" data-bs-toggle="tooltip" data-bs-placement="top" title="Record after a tone detection." value=0>
+                            <label for="recording_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable recording audio after a detection?" class="form-label w-50">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+
+                    <label for="config_recording_path" data-bs-toggle="tooltip" data-bs-placement="top" title="Path to save recording files to." class="form-label w-50">Recording Path</label>
+                    <input type="text" id="config_recording_path" name="config_recording_path" data-bs-toggle="tooltip" data-bs-placement="top" title="Path to save recording files to." class="form-control mb-3 w-50" value="{{ icad_config_data["recording"]["path"] }}" placeholder="{{ icad_config_data["recording"]["path"] }}">
+
+                    <label for="config_recording_max_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Max time in seconds to record." class="form-label w-50">Max Recording Length</label>
+                    <input type="text" id="config_recording_max_length" name="config_recording_max_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Max time in seconds to record." class="form-control mb-3 w-50" value="{{ icad_config_data["recording"]["max_length"] }}" placeholder="{{ icad_config_data["recording"]["max_length"] }}">
+
+                    <label for="config_recording_min_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Minimum time in seconds to record." class="form-label w-50">Minimum Recording Length</label>
+                    <input type="text" id="config_recording_min_length" name="config_recording_min_length" data-bs-toggle="tooltip" data-bs-placement="top" title="Minimum time in seconds to record." class="form-control mb-3 w-50" value="{{ icad_config_data["recording"]["min_length"] }}" placeholder="{{ icad_config_data["recording"]["min_length"] }}">
+
+                    <label for="config_recording_start_delay" data-bs-toggle="tooltip" data-bs-placement="top" title="Time in seconds to delay recording start." class="form-label w-50">Record Start Delay</label>
+                    <input type="text" id="config_recording_start_delay" name="config_recording_start_delay" data-bs-toggle="tooltip" data-bs-placement="top" title="Time in seconds to delay recording start." class="form-control mb-3 w-50" value="{{ icad_config_data["recording"]["start_delay"] }}" placeholder="{{ icad_config_data["recording"]["start_delay"] }}">
+
+                    <label for="config_recording_silence_release" data-bs-toggle="tooltip" data-bs-placement="top" title="Time in seconds of silence before ending recording." class="form-label w-50">Silence Release</label>
+                    <input type="text" id="config_recording_silence_release" name="config_recording_silence_release" data-bs-toggle="tooltip" data-bs-placement="top" title="Time in seconds of silence before ending recording." class="form-control mb-3 w-50" value="{{ icad_config_data["recording"]["silence_release"] }}" placeholder="{{ icad_config_data["recording"]["silence_release"] }}">
+                    <button id="general_save" type="submit" name="submit" class="btn btn-outline-success" value="icad_general_config">Save</button>
+                </div>
+                <div class="tab-pane fade" id="alerting-tab-pane" role="tabpanel" aria-labelledby="alerting-tab" tabindex="0">
+                    <h4 class="mt-4">Alerting</h4>
+                    <div id="exemption_selection_div">
+                        <label for="exemption_selection" data-bs-toggle="tooltip" data-bs-placement="top" title="Exclusion Editing" class="form-label w-50">Exclusions</label>
+                        <select id="exemption_selection" class="form-select mb-lg-5 w-50" aria-label="Exclude Selection">
+                            <option name="none" selected>Exclude Selection</option>
+                            {% for exclude in icad_config_data["alerting"]["exclude_times"] %}
+                            <option name="{{ exclude }}" value="{{ icad_config_data["alerting"]["exclude_times"][exclude] }}">{{ exclude }}</option>
+                            {% endfor %}
+                            {% block fdn_detector_selector %} {% endblock %}
+                            <option name="new_exclude" value="{{ exclude_template }}">Add Time Exclusion</option>
+                        </select>
+                    </div>
+                    <div class="exclusion_edit" id="exclusion_edit">
+                        <form class="exclusion_form" id="exclusion_form" method="post">
+                            <h4 class="mt-4">Edit Exclusion</h4>
+                            <label for="exclude_name" data-bs-toggle="tooltip" data-bs-placement="top" title="Name For Exclusion" class="form-label w-50">Exclusion Name</label>
+                            <input type="text" id="exclude_name" name="exclude_name">
+                            <legend>Exclusion Days</legend>
+                            <fieldset>
+                                <input id="sunday" type="checkbox" name="exclude_sunday" value="1">Sunday<br>
+                                <input id="monday" type="checkbox" name="exclude_monday" value="1">Monday<br>
+                                <input id="tuesday" type="checkbox" name="exclude_tuesday" value="1">Tuesday<br>
+                                <input id="wednesday" type="checkbox" name="exclude_wednesday" value="1">Wednesday<br>
+                                <input id="thursday" type="checkbox" name="exclude_thursday" value="1">Thursday<br>
+                                <input id="friday" type="checkbox" name="exclude_friday" value="1">Friday<br>
+                                <input id="saturday" type="checkbox" name="exclude_saturday" value="1">Saturday<br>
+                            </fieldset>
+
+                            <label for="exclude_from" data-bs-toggle="tooltip" data-bs-placement="top" title="Time to Start Exclusion." class="form-label w-50">Exclusion Start</label>
+                            <input type="time" id="exclude_from" name="exclude_from" value="00:00">
+                            <label for="exclude_to" data-bs-toggle="tooltip" data-bs-placement="top" title="Time to End Exclusion." class="form-label w-50">Exclusion End</label>
+                            <input type="time" id="exclude_to" name="exclude_to" value="00:00">
+                            <br>
+                            <button id="exclusion_save" type="submit" name="submit" value="save_exclude" class="btn btn-outline-success ms-n2">Save</button>
+                            <button id="exclusion_delete" type="submit" name="submit" value="delete_exclude" class="btn btn-outline-danger ms-n2">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="cleanup-tab-pane" role="tabpanel" aria-labelledby="cleanup-tab" tabindex="0">
+                    <h4 class="mt-4">Local File Cleanup</h4>
+                    {% block radios_local_clean %}
+                        {% if icad_config_data["cleanup_settings"]["local_enabled"] == 1 %}
+                            <input checked type="radio" id="local_clean_enable" name="config_local_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes local files if older than X days." value=1>
+                            <label for="local_clean_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Cleaning Local Files." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="local_clean_disable" name="config_local_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes local files if older than X days." value=0>
+                            <label for="local_clean_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Cleaning Local Files.">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="local_clean_enable" name="config_local_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes local files if older than X days." value=1>
+                            <label for="local_clean_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Cleaning Local Files." class="form-label w-50">Enabled</label><br>
+                            <input checked  type="radio" id="local_clean_disable" name="config_local_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes local files if older than X days." value=0>
+                            <label for="local_clean_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Cleaning Local Files.">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label for="config_local_clean_days" data-bs-toggle="tooltip" data-bs-placement="top" title="Maximum age of file in days before removed by local cleanup." class="form-label w-50">Local File Cleanup Days</label>
+                    <input type="text" id="config_local_clean_days" name="config_local_clean_days" data-bs-toggle="tooltip" data-bs-placement="top" title="Maximum age of file in days before removed by local cleanup." class="form-control mb-3 w-50" value="{{ icad_config_data["cleanup_settings"]["local_cleanup_days"] }}" placeholder="{{ icad_config_data["cleanup_settings"]["local_cleanup_days"] }}">
+
+                    <h4 class="mt-4">Remote File Cleanup</h4>
+                    {% block radios_remote_clean %}
+                        {% if icad_config_data["cleanup_settings"]["remote_enabled"] == 1 %}
+                            <input checked type="radio" id="remote_clean_enable" name="config_remote_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes remote files if older than X days." value=1>
+                            <label for="remote_clean_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Cleaning Local Files." class="form-label w-50">Enabled</label><br>
+                            <input type="radio" id="remote_clean_disable" name="config_remote_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes remote files if older than X days." value=0>
+                            <label for="remote_clean_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Cleaning Local Files.">Disabled</label><br>
+                        {% else %}
+                            <input type="radio" id="remote_clean_enable" name="config_remote_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes remote files if older than X days." value=1>
+                            <label for="remote_clean_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable Cleaning Local Files." class="form-label w-50">Enabled</label><br>
+                            <input checked type="radio" id="remote_clean_disable" name="config_remote_clean" data-bs-toggle="tooltip" data-bs-placement="top" title="Removes remote files if older than X days." value=0>
+                            <label for="remote_clean_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable Cleaning Local Files.">Disabled</label><br>
+                        {% endif %}
+                    {% endblock %}
+                    <br>
+                    <label for="config_remote_clean_days" data-bs-toggle="tooltip" data-bs-placement="top" title="Maximum age of file in days before removed by remote cleanup." class="form-label w-50">Local File Cleanup Days</label>
+                    <input type="text" id="config_remote_clean_days" name="config_remote_clean_days" data-bs-toggle="tooltip" data-bs-placement="top" title="Maximum age of file in days before removed by remote cleanup." class="form-control mb-3 w-50" value="{{ icad_config_data["cleanup_settings"]["remote_cleanup_days"] }}" placeholder="{{ icad_config_data["cleanup_settings"]["remote_cleanup_days"] }}">
+                    <button id="cleanup_save" type="submit" name="submit" value="icad_general_config" class="btn btn-outline-success ms-n2">Save</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </div>
+
+<script>
+const exemption_selection = document.getElementById('exemption_selection');
+exemption_selection.addEventListener('change', function handleChange(event) {
+  const name = this.options[this.selectedIndex].getAttribute('name')
+  if (name === "new_exclude"){
+      let exclude_data = JSON.parse(event.target.value.replace(/"/g, '\\"').replaceAll("'", '"'))
+      add_new_exclusion(exclude_data)
+  } else if (name === "none") {
+      const exc_input = document.getElementById('exclusion_edit')
+      exc_input.style.display = 'none'
+  } else {
+      let exclude_data = JSON.parse(event.target.value.replace(/"/g, '\\"').replaceAll("'", '"'))
+      show_exclusion_edit(name, exclude_data)
+  }
+
+});
+
+function show_exclusion_edit(exclude_name, exclude_data){
+    const exc_input = document.getElementById('exclusion_edit')
+    exc_input.style.display = 'block'
+    const exc_name = document.getElementById('exclude_name')
+    exc_name.value = exclude_name
+
+    for(let i = 0; i < exclude_data.exclude_days.length; i++) {
+        if(exclude_data.exclude_days[i] === 0){
+            document.getElementById('sunday').checked = true
+        } else if (exclude_data.exclude_days[i] === 1){
+            document.getElementById('monday').checked = true
+        } else if (exclude_data.exclude_days[i] === 2){
+            document.getElementById('tuesday').checked = true
+        } else if (exclude_data.exclude_days[i] === 3){
+            document.getElementById('wednesday').checked = true
+        } else if (exclude_data.exclude_days[i] === 4){
+            document.getElementById('thursday').checked = true
+        } else if (exclude_data.exclude_days[i] === 5){
+            document.getElementById('friday').checked = true
+        } else if (exclude_data.exclude_days[i] === 6){
+            document.getElementById('saturday').checked = true
+        }
+    }
+    const exc_start = document.querySelector('input[type="time"][id="exclude_from"]')
+    exc_start.value = exclude_data.exclude_time_start
+    const exc_end = document.querySelector('input[type="time"][id="exclude_to"]')
+    exc_end.value = exclude_data.exclude_time_end
+}
+
+function add_new_exclusion(new_detector_template) {
+    const exc_input = document.getElementById('exclusion_edit')
+    exc_input.style.display = 'block'
+    const exc_name = document.getElementById('exclude_name')
+    exc_name.value = "new_exclude"
+    document.getElementById('sunday').checked = false
+    document.getElementById('monday').checked = false
+    document.getElementById('tuesday').checked = false
+    document.getElementById('wednesday').checked = false
+    document.getElementById('thursday').checked = false
+    document.getElementById('friday').checked = false
+    document.getElementById('saturday').checked = false
+}
+
+
+
+</script>
+{% endblock %}

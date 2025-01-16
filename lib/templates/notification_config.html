@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Notification Configuration {% endblock %}</h1>
+    <hr class="mb-4" />
+    <div class="row">
+        <div class="col">
+            <ul class="nav nav-tabs" id="mp3_tabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link active" id="pushover-tab" data-bs-toggle="tab" data-bs-target="#pushover-tab-pane" type="button" role="tab" aria-controls="pushover-tab-pane" aria-selected="true">Pushover</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="zello-tab" data-bs-toggle="tab" data-bs-target="#zello-tab-pane" type="button" role="tab" aria-controls="zello-tab-pane" aria-selected="false">Zello</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="telegram-tab" data-bs-toggle="tab" data-bs-target="#telegram-tab-pane" type="button" role="tab" aria-controls="telegram-tab-pane" aria-selected="false">Telegram</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="conf-link nav-link" id="facebook-tab" data-bs-toggle="tab" data-bs-target="#facebook-tab-pane" type="button" role="tab" aria-controls="facebook-tab-pane" aria-selected="false">Facebook</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="notificationTabContent">
+
+                <div class="tab-pane fade show active" id="pushover-tab-pane" role="tabpanel" aria-labelledby="pushover-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Pushover Settings.">Pushover</h5>
+                    <form id="pushover_form" method="post">
+                        {% block radios_pushover %}
+                            {% if icad_config_data["pushover_settings"]["enabled"] == 1 %}
+                                <input checked type="radio" id="pushover_enable" name="pushover_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=1>
+                                <label for="pushover_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable adding database entries for detections." class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="pushover_disable" name="pushover_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=0>
+                                <label for="pushover_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable adding database entries for detections.">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="pushover_enable" name="pushover_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=1>
+                                <label for="pushover_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable adding database entries for detections." class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="pushover_disable" name="pushover_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Adds database entry for detection in MySQL." value=0>
+                                <label for="pushover_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable adding database entries for detections..">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                        <label id="html_message_label" for="html_message" data-bs-toggle="tooltip" data-bs-placement="top" title="Message to be sent with Pushover Notification" class="form-label w-50">Pushover Message HTML</label>
+                        <textarea rows="5" cols="50" id="html_message" name="html_message" data-bs-toggle="tooltip" data-bs-placement="top" title="Message to be sent with Pushover Notification" class="form-control mb-3 w-50">{{ icad_config_data["pushover_settings"]["message_html_string"] }}</textarea>
+
+                        <br>
+
+                        <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Send all detector notification to a group for all notifications.">Pushover All Detector Group</h5>
+                        {% block radios_all_detector %}
+                            {% if icad_config_data["pushover_settings"]["all_detector_group"] == 1 %}
+                                <input checked type="radio" id="all_detector_enable" name="all_detector_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send all detector notification to a group for all notifications." value=1>
+                                <label for="all_detector_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable adding database entries for detections." class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="all_detector_disable" name="all_detector_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send all detector notification to a group for all notifications." value=0>
+                                <label for="all_detector_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable a group the notifies on all detectors.">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="all_detector_enable" name="all_detector_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send all detector notification to a group for all notifications." value=1>
+                                <label for="all_detector_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable adding database entries for detections." class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="all_detector_disable" name="all_detector_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send all detector notification to a group for all notifications." value=0>
+                                <label for="all_detector_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable a group the notifies on all detectors.">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+
+                        <label id="all_detector_group_token_label" for="all_detector_group_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Token for the all detector group." class="form-label w-50">All Detector Group Token</label>
+                        <input type="text" id="all_detector_group_token" name="all_detector_group_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Token for the all detector group." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["pushover_settings"]["all_detector_group_token"] }}" value="{{ icad_config_data["pushover_settings"]["all_detector_group_token"] }}">
+
+                        <label id="all_detector_app_token_label" for="all_detector_app_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Token for the all detector App." class="form-label w-50">All Detector App Token</label>
+                        <input type="text" id="all_detector_app_token" name="all_detector_app_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Token for the all detector App." class="form-control mb-5 w-50" placeholder="{{ icad_config_data["pushover_settings"]["all_detector_app_token"] }}" value="{{ icad_config_data["pushover_settings"]["all_detector_app_token"] }}">
+
+                        <button type="submit" name="submit" value="pushover_save" class="mb-4 btn btn-outline-success">Save</button>
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="zello-tab-pane" role="tabpanel" aria-labelledby="zello-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello Settings.">Zello</h5>
+                    <form id="zello_form" method="post">
+                        {% block radios_zello %}
+                            {% if icad_config_data["zello_settings"]["enabled"] == 1 %}
+                                <input checked type="radio" id="zello_enable" name="zello_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Stream detection audio to Zello Channel." value=1>
+                                <label for="zello_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable streaming detection audio to Zello Channel." class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="zello_disable" name="zello_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Stream detection audio to Zello Channel." value=0>
+                                <label for="zello_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable streaming detection audio to Zello Channel.">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="zello_enable" name="zello_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Stream detection audio to Zello Channel." value=1>
+                                <label for="zello_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable streaming detection audio to Zello Channel." class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="zello_disable" name="zello_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Stream detection audio to Zello Channel." value=0>
+                                <label for="zello_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable streaming detection audio to Zello Channel.">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                        <label id="zello_call_wait_time_label" for="zello_call_wait_time" data-bs-toggle="tooltip" data-bs-placement="top" title="Wait time for stacked tones." class="form-label w-50">Call Wait Time</label>
+                        <input type="text" id="zello_call_wait_time" name="zello_call_wait_time" data-bs-toggle="tooltip" data-bs-placement="top" title="Wait time for stacked tones." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["zello_settings"]["call_wait_time"] }}" value="{{ icad_config_data["zello_settings"]["call_wait_time"] }}">
+
+                        <label id="zello_username_label" for="zello_username" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello Username." class="form-label w-50">Zello Username</label>
+                        <input type="text" id="zello_username" name="zello_username" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello Username." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["zello_settings"]["username"] }}" value="{{ icad_config_data["zello_settings"]["username"] }}">
+
+                        <label id="zello_password_label" for="zello_password" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello Password." class="form-label w-50">Zello Password</label>
+                        <input type="password" id="zello_password" name="zello_password" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello Password." class="form-control mb-3 w-50" value="{{ icad_config_data["zello_settings"]["password"] }}">
+
+                        <label id="zello_channel_label" for="zello_channel" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello channel to stream to." class="form-label w-50">Zello Channel</label>
+                        <input type="text" id="zello_channel" name="zello_channel" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello channel to stream to." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["zello_settings"]["channel"] }}" value="{{ icad_config_data["zello_settings"]["channel"] }}">
+
+                        <label id="zello_issuer_label" for="zello_issuer" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello issuer for private key." class="form-label w-50">Zello Issuer</label>
+                        <input type="text" id="zello_issuer" name="zello_issuer" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello issuer for private key." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["zello_settings"]["issuer"] }}" value="{{ icad_config_data["zello_settings"]["issuer"] }}">
+
+                        <label id="zello_private_key_label" for="zello_private_key" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello path to private key." class="form-label w-50">Private Key File</label>
+                        <input type="text" id="zello_private_key" name="zello_private_key" data-bs-toggle="tooltip" data-bs-placement="top" title="Zello path to private key." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["zello_settings"]["private_key"] }}" value="{{ icad_config_data["zello_settings"]["private_key"] }}">
+
+                        <button type="submit" name="submit" value="zello_save" class="mb-4 btn btn-outline-success">Save</button>
+
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="telegram-tab-pane" role="tabpanel" aria-labelledby="telegram-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram Settings.">Telegram</h5>
+                    <form id="telegram_form" method="post">
+                        {% block radios_telegram %}
+                            {% if icad_config_data["telegram_settings"]["enabled"] == 1 %}
+                                <input checked type="radio" id="telegram_enable" name="telegram_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Telegram." value=1>
+                                <label for="telegram_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable sending detection notification to Telegram." class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="telegram_disable" name="telegram_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Telegram." value=0>
+                                <label for="telegram_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable sending detection notification to Telegram.">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="telegram_enable" name="telegram_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Telegram." value=1>
+                                <label for="telegram_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable sending detection notification to Telegram." class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="telegram_disable" name="telegram_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Telegram." value=0>
+                                <label for="telegram_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable sending detection notification to Telegram.">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                        <label id="telegram_call_wait_time_label" for="telegram_call_wait_time" data-bs-toggle="tooltip" data-bs-placement="top" title="Wait time for stacked tones." class="form-label w-50">Call Wait Time</label>
+                        <input type="text" id="telegram_call_wait_time" name="telegram_call_wait_time" data-bs-toggle="tooltip" data-bs-placement="top" title="Wait time for stacked tones." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["telegram_settings"]["call_wait_time"] }}" value="{{ icad_config_data["telegram_settings"]["call_wait_time"] }}">
+
+                        <label id="telegram_bot_token_label" for="telegram_bot_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram Bot Token" class="form-label w-50">Bot Token</label>
+                        <input type="text" id="telegram_bot_token" name="telegram_bot_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram Bot Token" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["telegram_settings"]["telegram_bot_token"] }}" value="{{ icad_config_data["telegram_settings"]["telegram_bot_token"] }}">
+
+                        <label id="telegram_channels_label" for="telegram_channels" data-bs-toggle="tooltip" data-bs-placement="top" title="Comma Seperated Channel List" class="form-label w-50">Channel ID List</label>
+                        <input type="text" id="telegram_channels" name="telegram_channels" data-bs-toggle="tooltip" data-bs-placement="top" title="Comma Seperated Channel List" class="form-control mb-3 w-50" placeholder="{{ telegram_channels }}" value="{{ telegram_channels }}">
+
+                        <button type="submit" name="submit" value="telegram_save" class="mb-4 btn btn-outline-success">Save</button>
+
+                    </form>
+                </div>
+                <div class="tab-pane fade" id="facebook-tab-pane" role="tabpanel" aria-labelledby="facebook-tab" tabindex="0">
+                    <h5 class="mt-3 mb-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook Page Settings.">Facebook Page Post</h5>
+                    <form id="facebook_form" method="post">
+                        {% block radios_facebook %}
+                            {% if icad_config_data["facebook_settings"]["enabled"] == 1 %}
+                                <input checked type="radio" id="facebook_enable" name="facebook_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Facebook Page." value=1>
+                                <label for="facebook_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable sending detection notification to Facebook Page." class="form-label w-50">Enabled</label><br>
+                                <input type="radio" id="facebook_disable" name="facebook_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Facebook Page." value=0>
+                                <label for="facebook_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable sending detection notification to Facebook Page.">Disabled</label><br>
+                            {% else %}
+                                <input type="radio" id="facebook_enable" name="facebook_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Facebook Page." value=1>
+                                <label for="facebook_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Enable sending detection notification to Facebook Page." class="form-label w-50">Enabled</label><br>
+                                <input checked type="radio" id="facebook_disable" name="facebook_enable" data-bs-toggle="tooltip" data-bs-placement="top" title="Send detection notification to Facebook Page." value=0>
+                                <label for="facebook_disable" data-bs-toggle="tooltip" data-bs-placement="top" title="Disable sending detection notification to Facebook Page.">Disabled</label><br>
+                            {% endif %}
+                        {% endblock %}
+                        <br>
+                        <label id="facebook_call_wait_time_label" for="facebook_call_wait_time" data-bs-toggle="tooltip" data-bs-placement="top" title="Wait time for stacked tones." class="form-label w-50">Call Wait Time</label>
+                        <input type="text" id="facebook_call_wait_time" name="facebook_call_wait_time" data-bs-toggle="tooltip" data-bs-placement="top" title="Wait time for stacked tones." class="form-control mb-3 w-50" placeholder="{{ icad_config_data["facebook_settings"]["call_wait_time"] }}" value="{{ icad_config_data["facebook_settings"]["call_wait_time"] }}">
+
+                        <label id="facebook_page_token_label" for="facebook_page_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook Page Token" class="form-label w-50">Page Token</label>
+                        <input type="text" id="facebook_page_token" name="facebook_page_token" data-bs-toggle="tooltip" data-bs-placement="top" title="Telegram Bot Token" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["facebook_settings"]["facebook_app_token_page"] }}" value="{{ icad_config_data["facebook_settings"]["facebook_app_token_page"] }}">
+
+                        <label id="facebook_page_label" for="facebook_page" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook Page ID" class="form-label w-50">Facebook Page ID</label>
+                        <input type="text" id="facebook_page" name="facebook_page" data-bs-toggle="tooltip" data-bs-placement="top" title="Facebook Page ID" class="form-control mb-3 w-50" placeholder="{{ icad_config_data["facebook_settings"]["facebook_page_id"] }}" value="{{ icad_config_data["facebook_settings"]["facebook_page_id"] }}">
+
+                        <button type="submit" name="submit" value="facebook_save" class="mb-4 btn btn-outline-success">Save</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    document.getElementById("telegram-tab").addEventListener("click", populate_telegram_channel_input);
+    function populate_telegram_channel_input(icad_config){
+        const not_telegram_channels = document.getElementById('telegram_channels')
+        not_telegram_channels.value = icad_config.telegram_settings.telegram_channel_ids.join(', ')
+    }
+</script>
+{% endblock %}

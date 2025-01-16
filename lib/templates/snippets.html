@@ -1,0 +1,43 @@
+<form method="post">
+            <select id="detector_selection" class="form-select mb-lg-5 w-50" aria-label="Detector Selection">
+                <option selected>Detector Selection</option>
+                {% for detector in fdn_config_data["detection"]["detectors"] %}
+                    {% print(detector["name"]) %}
+                <option value="{{ detector }}">{{ detector["name"] }}</option>
+                {% endfor %}
+                {% block fdn_detector_selector %} {% endblock %}
+                <option value="detector_new">Add New Detector</option>
+            </select>
+            <div id="detector_div" class="detector_input">
+
+                <h4>Pre Recording</h4>
+                <select id="detector_pushbullet_selection" class="form-select mb-lg-5 w-50" aria-label="Pushbullet Selection">
+                </select>
+                <input type="hidden" id="detector_pushbullet_full">
+
+                <label id="detector_webhooks_label" for="detector_webhooks" class="form-label w-50">Webhooks</label>
+                <textarea id="detector_webhooks" name="detector_webhooks" class="form-control mb-3 w-50" rows="4" cols="50"></textarea>
+
+            </div>
+
+            <button type="submit" name="submit" value="fdn_detection">Save</button>
+        </form>
+
+        ESC [ 30 m      # black
+ESC [ 31 m      # red
+ESC [ 32 m      # green
+ESC [ 33 m      # yellow
+ESC [ 34 m      # blue
+ESC [ 35 m      # magenta
+ESC [ 36 m      # cyan
+ESC [ 37 m      # white
+
+
+<li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                iCAD Config
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="">Audio</a></li>
+                            </ul>
+                        </li>
