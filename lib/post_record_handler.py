@@ -8,7 +8,7 @@ from lib.facebook_handler import send_post
 from lib.ftp_handler import ftp_upload_to_path
 from lib.mp3_handler import add_id_tags, soften_clipping, noise_filter, remove_silence, high_pass_filter, \
     low_pass_filter, convert_wav_mp3, gain_filter, append_audio_file, append_text2speech_audio, remove_tones
-from lib.sftp_handler import sftp_upload_to_path, clean_remote_files
+from lib.sftp_handler import sftp_upload_to_path
 from lib.pushover_handler import send_push
 from lib.mysql_handler import Database
 from lib.zello_handler import zello_init
