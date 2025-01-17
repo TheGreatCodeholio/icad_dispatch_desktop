@@ -413,10 +413,10 @@ def ftp_config():
                 return redirect(url_for("ftp_config"), code=302)
 
             icad_config_data["ftp_settings"]["enabled"] = ftp_enable
-            icad_config_data["ftp_settings"]["sftp_hostname"] = ftp_hostname
-            icad_config_data["ftp_settings"]["sftp_port"] = ftp_port
-            icad_config_data["ftp_settings"]["sftp_username"] = ftp_username
-            icad_config_data["ftp_settings"]["sftp_password"] = ftp_pasword
+            icad_config_data["ftp_settings"]["ftp_hostname"] = ftp_hostname
+            icad_config_data["ftp_settings"]["ftp_port"] = ftp_port
+            icad_config_data["ftp_settings"]["ftp_username"] = ftp_username
+            icad_config_data["ftp_settings"]["ftp_password"] = ftp_pasword
             icad_config_data["ftp_settings"]["remote_path"] = ftp_remote_path
 
 

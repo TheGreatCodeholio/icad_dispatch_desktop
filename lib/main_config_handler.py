@@ -113,6 +113,7 @@ default_config = {
         "private_key": "/home/user/.ssh/id_rsa"
     },
     "ftp_settings": {
+        "ftp_enabled": 0,
         "ftp_hostname": "ftp.example.com",
         "ftp_port": 21,
         "ftp_username": "ftpuser",
