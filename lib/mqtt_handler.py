@@ -5,7 +5,7 @@ import paho.mqtt.publish as publish
 # create logger
 from colorama import Fore, Style
 
-module_logger = logging.getLogger('icad_tone_detection.mqtt')
+module_logger = logging.getLogger('icad_tone_detector.mqtt')
 
 
 def publish_to_mqtt(icad_config, detector_data, detector_name):
