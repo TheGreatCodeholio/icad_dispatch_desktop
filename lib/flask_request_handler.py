@@ -886,8 +886,10 @@ def detector_config():
 
         return redirect(url_for("detector_config"), code=302)
 
+    sorted_detector_config_data = {key: detector_config_data[key] for key in sorted(detector_config_data)}
+
     return render_template("detector_config.html", detector_template=icad_detector_template,
-                           detector_config_data=detector_config_data)
+                           detector_config_data=sorted_detector_config_data)
 
 
 @app.route("/icad_config/", methods=("GET", "POST"))
