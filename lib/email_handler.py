@@ -27,6 +27,11 @@ def send_email(icad_config, detector_data, detector_name, mp3_file_name, recipie
         ValueError: If an unsupported SMTP port is provided.
         smtplib.SMTPException: If there is an error during email transmission.
     """
+
+    if not recipient_list:
+        module_logger.error("Recipient list is empty. Cannot send email.")
+        return
+
     message = MIMEMultipart("alternative")
 
     # Generate timestamp for email content
@@ -45,20 +50,8 @@ def send_email(icad_config, detector_data, detector_name, mp3_file_name, recipie
         (str(Header(icad_config["email"]["email_text_from"], 'utf-8')), icad_config["email"]["email_address_from"])
     )
 
-    # Set recipient details
-    if len(recipient_list) == 1:
-        message["To"] = recipient_list[0]
-        to_recipient = recipient_list[0]
-        bcc_recipient = ""
-    elif len(recipient_list) >= 2:
-        message["To"] = recipient_list[0]
-        to_recipient = recipient_list[0]
-        bcc_recipient_list = recipient_list[1:]
-        message["Bcc"] = ', '.join(bcc_recipient_list)
-        bcc_recipient = ', '.join(bcc_recipient_list)
-    else:
-        module_logger.error("Recipient list is empty. Cannot send email.")
-        return
+    message["To"] = recipient_list[0]  # Only show the first recipient in the email header
+    message["Bcc"] = ', '.join(recipient_list[1:]) if len(recipient_list) > 1 else ""
 
     # Determine email subject and body based on status
     if status:
@@ -74,17 +67,9 @@ def send_email(icad_config, detector_data, detector_name, mp3_file_name, recipie
     email_body = email_body.replace("%detector_name%", detector_name).replace("%timestamp%", hr_timestamp).replace(
         "%mp3_url%", mp3_url)
 
-    # Attach plain text and HTML versions of the email body
-    plain_text = email_body
-
-    html_content = email_body
-
     message["Subject"] = subject
-    message.attach(MIMEText(plain_text, "plain"))
-    message.attach(MIMEText(html_content, "html"))
-
-    # Prepare recipient addresses
-    toaddrs = f"{to_recipient}, {bcc_recipient}" if bcc_recipient else to_recipient
+    message.attach(MIMEText(email_body, "plain"))
+    message.attach(MIMEText(email_body, "html"))
 
     # Establish secure connection and send email
     context = ssl.create_default_context()
@@ -96,13 +81,13 @@ def send_email(icad_config, detector_data, detector_name, mp3_file_name, recipie
             # Use SSL
             with smtplib.SMTP_SSL(smtp_host, smtp_port, context=context) as server:
                 server.login(icad_config["email"]["smtp_username"], icad_config["email"]["smtp_password"])
-                server.sendmail(icad_config["email"]["smtp_username"], toaddrs.split(', '), message.as_string())
+                server.sendmail(icad_config["email"]["email_address_from"], recipient_list, message.as_string())
         elif smtp_port == 587:
             # Use TLS
             with smtplib.SMTP(smtp_host, smtp_port) as server:
                 server.starttls(context=context)
                 server.login(icad_config["email"]["smtp_username"], icad_config["email"]["smtp_password"])
-                server.sendmail(icad_config["email"]["smtp_username"], toaddrs.split(', '), message.as_string())
+                server.sendmail(icad_config["email"]["email_address_from"], recipient_list, message.as_string())
         else:
             raise ValueError(f"Unsupported SMTP port {smtp_port}. Use 465 for SSL or 587 for TLS.")
 
