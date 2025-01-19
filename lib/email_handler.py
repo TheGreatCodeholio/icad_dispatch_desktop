@@ -71,6 +71,8 @@ def send_email(icad_config, detector_data, detector_name, mp3_file_name, recipie
     message.attach(MIMEText(email_body, "plain"))
     message.attach(MIMEText(email_body, "html"))
 
+    module_logger.debug(f"Email Recipient List: {type(recipient_list)}: {recipient_list}")
+
     # Establish secure connection and send email
     context = ssl.create_default_context()
     try:
